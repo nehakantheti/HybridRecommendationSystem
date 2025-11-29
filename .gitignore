@@ -1,0 +1,44 @@
+__pycache__/
+*.pyc
+.env
+.vscode/
+.DS_Store
+node_modules/
+dist/
+build/
+*.log
+coverage/
+.idea/
+*.swp
+*.bak
+*.tmp
+package-lock.json
+package.json
+
+# React Gitignore
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.ipynb
