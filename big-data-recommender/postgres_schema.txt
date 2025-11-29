@@ -1,0 +1,33 @@
+-- Enable the vector extension (Required for embeddings)
+-- Install it from here : https://github.com/pgvector/pgvector
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Create the Movies table
+CREATE TABLE IF NOT EXISTS movies (
+    movie_id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    genres TEXT[],
+    year INTEGER,
+    poster_color TEXT, -- derived or random for UI
+    popularity INTEGER DEFAULT 0
+);
+
+-- Create the Vectors table
+-- We store 3 different vectors for each movie to support our Hybrid engine
+CREATE TABLE IF NOT EXISTS movie_vectors (
+    movie_id INTEGER PRIMARY KEY REFERENCES movies(movie_id) ON DELETE CASCADE,
+    
+    -- ALS Vector (Collaborative Filtering) - 50 dimensions
+    als_vector vector(50),
+    
+    -- Semantic Vector (Content/TF-IDF) - 50 dimensions
+    semantic_vector vector(50),
+    
+    -- LDA Vector (Topic Modeling) - 5 dimensions
+    lda_vector vector(5)
+);
+
+-- Create indexes for fast approximate nearest neighbor search (HNSW)
+-- These allow searching 25M rows in milliseconds
+CREATE INDEX ON movie_vectors USING hnsw (als_vector vector_cosine_ops);
+CREATE INDEX ON movie_vectors USING hnsw (semantic_vector vector_cosine_ops);
