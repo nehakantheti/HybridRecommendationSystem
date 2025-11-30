@@ -73,8 +73,8 @@ Install Dependencies on backend:
 Check Database Config:
   Open training/populate_script.py and backend/main.py. Ensure the DB_URL matches your local credentials:
 
-#### Update 'postgres:password' to your local username and password
 DB_URL = "postgresql://postgres:<your_postgres_instance_password>@localhost:5432/postgres"
+#### Update 'postgres:password' to your local username and password
 
 ## Download Data:
 
@@ -84,9 +84,11 @@ Place movies.csv, ratings.csv, tags.csv, links.csv, genome-scores.csv, and genom
 
 **Train & Ingest Data**:
 Note: This process may take 10-20 minutes depending on your hardware.
-python populate_script.py
+```py populate_script.py```
 
 **Start the API Server**:
+
+```cd backend```
 
 ```uvicorn main:app --reload  ```
 
@@ -117,7 +119,19 @@ Navigate to http://localhost:5173 on your browser to view the application.
 
 **Adaptation**: The system instantly recalculates your User Vector based on these interactions and refreshes the feed.
 
-**Tuning**: Use the sliders in the sidebar to manually adjust the weight of each algorithm (e.g., increase "Semantic" to find movies with similar plot descriptions regardless of popularity).
+**Tuning**: Use the sliders in the sidebar to manually adjust the weight of each algorithm:
+
+- Collaborative (ALS): Increase this to find movies that other users with similar tastes watched.
+  
+  - Example: "I want to see what the community loves, even if the plot sounds different."
+
+- Semantic (Content): Increase this to find movies with similar plot descriptions and tags.
+
+  - Example: "I want to watch another movie specifically about 'Time Travel' or 'Cyberpunk', regardless of popularity."
+
+- Topics (LDA): Increase this to find movies that match the abstract themes or 'vibe'.
+
+  - Example: "I'm in the mood for something 'Dark & Gritty' or 'Philosophical', whether it's a Sci-Fi or a Drama."
 
 ### Project Structure
 ```big-data-recommender/
