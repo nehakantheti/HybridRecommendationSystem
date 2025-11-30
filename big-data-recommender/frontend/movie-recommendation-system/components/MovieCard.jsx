@@ -2,8 +2,16 @@ import {
   Play, Database, Loader2, Star, ThumbsUp, ThumbsDown,
   Users, Layers, Sliders, Film, ArrowLeft, Info, WifiOff, RefreshCw
 } from 'lucide-react';
+import { useState } from 'react';
+
 
 const MovieCard = ({ movie, onOpen, onInteraction }) => {
+  const [interaction, setInteraction] = useState(null); 
+
+  const handleInteraction = (type) => {
+    setInteraction(type);      
+    onInteraction(movie, type);    
+  };
   return (
     <div 
       className="group bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col cursor-pointer"
@@ -34,8 +42,12 @@ const MovieCard = ({ movie, onOpen, onInteraction }) => {
           <Play size={10} fill="currentColor" /> Watch
         </button>
         <div className="flex gap-1">
-           <button onClick={() => onInteraction(movie, 'like')} className="p-1.5 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-full transition-colors"><ThumbsUp size={14} /></button>
-           <button onClick={() => onInteraction(movie, 'dislike')} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"><ThumbsDown size={14} /></button>
+           <button onClick={() => handleInteraction("like")} className={`p-1.5 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-full transition-colors ${interaction === "like" 
+        ? "text-green-900 bg-green-300" 
+        : "text-slate-400 hover:text-green-600 hover:bg-green-50"}`}><ThumbsUp size={14} /></button>
+           <button onClick={() => handleInteraction("dislike")} className={`p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors ${interaction === "dislike" 
+        ? "text-red-900 bg-red-300" 
+        : "text-slate-400 hover:text-red-500 hover:bg-red-50"}`}><ThumbsDown size={14} /></button>
         </div>
       </div>
     </div>
